@@ -4,7 +4,7 @@ package main;
 import javafx.collections.ObservableList;
 
 public class Product {
-    private ObservableList associatedParts;
+    private ObservableList<Part> associatedParts;
     private int id;
     private String name;
     private double price;
@@ -68,15 +68,9 @@ public class Product {
         return max;
     }
 
-    public void addAssociatedPart(Part part){
+    public void addAssociatedPart(Part part){}
 
-    }
+    public boolean deleteAssociatedPart(Part selectAssociatedPart){}
 
-    public boolean deleteAssociatedPart(Part selectAssociatedPart){
-
-    }
-
-    public ObservableList getAllAssociatedParts(){
-
-    }
+    public ObservableList<Part> getAllAssociatedParts(){return associatedParts;}
 }
