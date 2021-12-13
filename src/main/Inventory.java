@@ -1,6 +1,9 @@
 package main;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.util.Locale;
 
 public class Inventory {
     private static ObservableList<Part> allParts;
@@ -13,7 +16,7 @@ public class Inventory {
     public static Part lookupPart(int partId){
         Part temp = null;
         for (Part part : allParts){
-            if(partId == part.getId()){ temp = part;}
+            if( part.getId() == partId){ temp = part;}
         }
         return temp;
     }
@@ -21,25 +24,36 @@ public class Inventory {
     public static Product lookupProduct(int productId){
         Product temp = null;
         for (Product product : allProducts){
-            if(productId == product.getId()){ temp = product;}
+            if(product.getId() == productId){temp = product;}
         }
         return temp;
     }
 
     public static ObservableList<Part> lookupPart(String partName){
-        ObservableList<Part> foundParts;
-
-        if(partName.length()==0){
-            foundParts = allParts;
-        }
-        else {
+        ObservableList<Part> result = null;
+        
             for (int i = 0; i < allParts.size(); i++) {
-                if()
+                if(allParts.get(i).getName().contains(partName)){
+                    result.add(allParts.get(i));
+                }
             }
+            return result;
         }
-    }
 
-    public static ObservableList<Product> lookupProduct(String partName){}
+
+    public static ObservableList<Product> lookupProduct(String productName){
+        ObservableList<Product> result = null;
+        
+            for (int i = 0; i < allProducts.size(); i++) {
+                if (allParts.get(i).getName().contains(productName)) {
+                    result.add(allProducts.get(i));
+                }
+            }
+        
+
+        return result;
+
+    }
 
     public static void updatePart(int index, Part selectedPart){allParts.set(index, selectedPart);}
 

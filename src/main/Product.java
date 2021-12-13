@@ -1,6 +1,5 @@
 package main;
 
-
 import javafx.collections.ObservableList;
 
 public class Product {
@@ -11,6 +10,7 @@ public class Product {
     private int stock;
     private int min;
     private int max;
+
     public Product(int id, String name, double price, int stock,int min, int max){
         this.id = id;
         this.name = name;
@@ -68,9 +68,15 @@ public class Product {
         return max;
     }
 
-    public void addAssociatedPart(Part part){}
+    public void addAssociatedPart(Part part){associatedParts.add(part);}
 
-    public boolean deleteAssociatedPart(Part selectAssociatedPart){}
+    public boolean deleteAssociatedPart(Part selectAssociatedPart){
+        try {associatedParts.remove(selectAssociatedPart);}
+        catch (Exception e){
+            return false;
+        }
+        return true;
+    }
 
     public ObservableList<Part> getAllAssociatedParts(){return associatedParts;}
 }
