@@ -3,11 +3,9 @@ package main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Locale;
-
 public class Inventory {
-    private static ObservableList<Part> allParts;
-    private static ObservableList<Product> allProducts;
+    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     public  static void addPart(Part newPart){allParts.add(newPart);}
 
@@ -30,7 +28,7 @@ public class Inventory {
     }
 
     public static ObservableList<Part> lookupPart(String partName){
-        ObservableList<Part> result = null;
+        ObservableList<Part> result = FXCollections.observableArrayList();
         
             for (int i = 0; i < allParts.size(); i++) {
                 if(allParts.get(i).getName().contains(partName)){
@@ -42,7 +40,7 @@ public class Inventory {
 
 
     public static ObservableList<Product> lookupProduct(String productName){
-        ObservableList<Product> result = null;
+        ObservableList<Product> result = FXCollections.observableArrayList();
         
             for (int i = 0; i < allProducts.size(); i++) {
                 if (allParts.get(i).getName().contains(productName)) {
@@ -61,7 +59,7 @@ public class Inventory {
 
     public static boolean deletePart(Part selectedPart){return allParts.remove(selectedPart);}
 
-    public static boolean deleteProduct(Product selectedProduct){return allParts.remove(selectedProduct);}
+    public static boolean deleteProduct(Product selectedProduct){return allProducts.remove(selectedProduct);}
 
     public static ObservableList<Part> getAllParts(){return allParts;}
 
