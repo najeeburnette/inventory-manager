@@ -17,13 +17,15 @@ public class ModifyPartController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
     public void backToMain (javafx.event.ActionEvent actionEvent) throws IOException
     {
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setTitle("Inventory Manager");
-        stage.setScene(new Scene(root, 900, 600));
+        stage.setScene(scene);
         stage.show();
     }
+
 }

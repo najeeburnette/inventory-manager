@@ -23,7 +23,7 @@
       <Label layoutX="129.0" layoutY="354.0" text="Max" />
       <Label layoutX="128.0" layoutY="393.0" prefHeight="17.0" prefWidth="70.0" text="Machine ID" />
       <Button layoutX="475.0" layoutY="442.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="585.0" layoutY="442.0" mnemonicParsing="false" onAction="#backToMain" text="Cancel" />
+      <Button fx:id="CancelButton" layoutX="585.0" layoutY="442.0" mnemonicParsing="false" onAction="#backToMain" text="Cancel" />
       <TextField layoutX="228.0" layoutY="189.0" promptText="Auto Gen-Disabled">
          <font>
             <Font name="System Italic" size="12.0" />

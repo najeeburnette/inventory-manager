@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -32,7 +33,7 @@ public class MainController implements Initializable {
     @FXML
     private TableView<Part> partsTableView;
     @FXML
-    private javafx.scene.control.TextField partSearchInput;
+    private javafx.scene.control.TextField partSearchQuery;
     @FXML
     private TableColumn<Part, Integer> partId;
     @FXML
@@ -52,7 +53,7 @@ public class MainController implements Initializable {
     @FXML
     private TableView<Product> productTableView;
     @FXML
-    private javafx.scene.control.TextField productSearchField;
+    private javafx.scene.control.TextField productSearchQuery;
     @FXML
     private TableColumn<Product, Integer> productId;
     @FXML
@@ -203,49 +204,106 @@ public class MainController implements Initializable {
 
     }
 
-    public boolean checkIfOnlyNumbers(String s)
+    public void partResultHandler(ActionEvent actionEvent)
     {
-        boolean results = false;
+       String q = partSearchQuery.getText();
 
-        for(int i = 0; i <= s.length()-1; i++)
-        {
-            if(s.charAt(i) >= '0' && s.charAt(i) <= '9')
+       ObservableList<Part> parts = searchByPartName(q);
+
+      if(parts.size() == 0){
+          try
+          {
+              int id = Integer.parseInt(q);
+              Part pt = searchByPartId(id);
+              if (pt != null) {parts.add(pt);}
+          }
+          catch (NumberFormatException e)
+          {
+              //ignore
+          }
+      }
+
+       partsTableView.setItems(parts);
+       partSearchQuery.setText("");
+    }
+
+    public void productResultHandler(ActionEvent actionEvent)
+    {
+        String q = productSearchQuery.getText();
+
+        ObservableList<Product> products = searchByProductName(q);
+
+        if(products.size() == 0){
+            try
             {
-                results = true;
+                int id = Integer.parseInt(q);
+                Product pd = searchByProductId(id);
+                if (pd != null) {products.add(pd);}
             }
-            else
+            catch (NumberFormatException e)
             {
-                results = false;
+                //ignore
             }
         }
 
-        return results;
+        productTableView.setItems(products);
+        productSearchQuery.setText("");
     }
 
-    public void onPartSearch(KeyEvent event) throws IOException
+    private ObservableList<Part> searchByPartName(String partialName)
     {
-        if(event.getCode() == KeyCode.ENTER)
-        {
-            String searchinput = partSearchInput.getText();
+        ObservableList<Part> namedParts = FXCollections.observableArrayList();
+        ObservableList<Part> allParts = Inventory.getAllParts();
 
-            // Perform lookup based on whether the search searchinput is just the PartID or the Name of the Part
-            if(checkIfOnlyNumbers(searchinput) && !searchinput.isEmpty())
+        for(Part p : allParts)
+        {
+            if(p.getName().contains(partialName))
             {
-                Part part = inventory.lookupPart(Integer.valueOf(searchinput));
-                partsTableView.getSelectionModel().select(part);
-            }
-            else
-            {
-                // if the search searchinput is a String, then filter the results to show Parts that have Names within the searchinput
-                ObservableList<Part> results = FXCollections.observableArrayList();
-                results.addAll(inventory.lookupPart(searchinput));
-                partsTableView.setItems(results);
+                namedParts.add(p);
             }
         }
+     return namedParts;
     }
 
-
-    public void onProductSearch()
+    private Part searchByPartId(int partId)
     {
+        ObservableList<Part> namedParts = FXCollections.observableArrayList();
+        ObservableList<Part> allParts = Inventory.getAllParts();
+        for (Part p : allParts)
+        {
+          if(p.getId() == partId) {
+          return p;
+          }
+        }
+        return null;
     }
+
+    private ObservableList<Product> searchByProductName(String partialName)
+    {
+        ObservableList<Product> namedProducts = FXCollections.observableArrayList();
+        ObservableList<Product> allProducts = Inventory.getAllProducts();
+
+        for(Product p : allProducts)
+        {
+            if(p.getName().contains(partialName))
+            {
+                namedProducts.add(p);
+            }
+        }
+        return namedProducts;
+    }
+
+    private Product searchByProductId(int productId)
+    {
+        ObservableList<Product> namedProducts = FXCollections.observableArrayList();
+        ObservableList<Product> allProducts = Inventory.getAllProducts();
+        for (Product p : allProducts)
+        {
+            if(p.getId() == productId) {
+                return p;
+            }
+        }
+        return null;
+    }
+
 }

@@ -28,8 +28,8 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="partSearchInput" layoutX="169.0" layoutY="11.0" onKeyTyped="#onPartSearch" prefHeight="25.0" prefWidth="180.0" promptText="Search by Part ID or Name" />
-            <TableView fx:id="partsTableView" layoutX="15.0" layoutY="33.0" prefHeight="172.0" prefWidth="352.0">
+            <TextField fx:id="partSearchQuery" layoutX="186.0" layoutY="11.0" prefHeight="25.0" prefWidth="180.0" promptText="Search by Part ID or Name" />
+            <TableView fx:id="partsTableView" layoutX="22.0" layoutY="39.0" prefHeight="172.0" prefWidth="352.0">
               <columns>
                 <TableColumn fx:id="partId" prefWidth="54.0" text="Part ID" />
                 <TableColumn fx:id="partName" prefWidth="138.40003204345703" text="Part Name" />
@@ -37,9 +37,10 @@
                   <TableColumn fx:id="partCost" prefWidth="92.80001831054688" text="Price/Cost&#10;per Unit" />
               </columns>
             </TableView>
-            <Button fx:id="addPartButton" layoutX="198.0" layoutY="211.0" mnemonicParsing="false" onAction="#toAddPart" text="Add" />
-            <Button fx:id="modifyPartButton" layoutX="244.0" layoutY="211.0" mnemonicParsing="false" onAction="#toModifyPart" text="Modify" />
-            <Button fx:id="deletePartButton" layoutX="305.0" layoutY="211.0" mnemonicParsing="false" onAction="#onDeletePart" text="Delete" />
+            <Button fx:id="addPartButton" layoutX="198.0" layoutY="216.0" mnemonicParsing="false" onAction="#toAddPart" text="Add" />
+            <Button fx:id="modifyPartButton" layoutX="244.0" layoutY="216.0" mnemonicParsing="false" onAction="#toModifyPart" text="Modify" />
+            <Button fx:id="deletePartButton" layoutX="305.0" layoutY="216.0" mnemonicParsing="false" onAction="#onDeletePart" text="Delete" />
+            <Button fx:id="partSearchButton" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#partResultHandler" prefHeight="25.0" prefWidth="52.0" text="Search" />
          </children>
       </Pane>
       <Pane layoutX="475.0" layoutY="163.0" prefHeight="250.0" prefWidth="380.0" style="-fx-border-color: black; -fx-border-radius: 25;">
@@ -49,8 +50,8 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="productSearchField" layoutX="166.0" layoutY="11.0" onAction="#onProductSearch" prefHeight="25.0" prefWidth="180.0" promptText="Search By Product ID or Name" />
-            <TableView fx:id="productTableView" layoutX="14.0" layoutY="33.0" prefHeight="172.0" prefWidth="352.0">
+            <TextField fx:id="productSearchQuery" layoutX="185.0" layoutY="10.0" prefHeight="25.0" prefWidth="180.0" promptText="Search By Product ID or Name" />
+            <TableView fx:id="productTableView" layoutX="14.0" layoutY="39.0" prefHeight="172.0" prefWidth="352.0">
                <columns>
                   <TableColumn fx:id="productId" prefWidth="58.0" text="Product&#10;ID" />
                   <TableColumn fx:id="productName" prefWidth="129.60009765625" text="Product Name" />
@@ -58,9 +59,10 @@
                   <TableColumn fx:id="productCost" prefWidth="100.0" text="Price/Cost&#10;per Unit" />
                </columns>
             </TableView>
-            <Button fx:id="addProductButton" layoutX="198.0" layoutY="211.0" mnemonicParsing="false" onAction="#toAddProduct" text="Add" />
-            <Button fx:id="modifyProductButton" layoutX="245.0" layoutY="211.0" mnemonicParsing="false" onAction="#toModifyProduct" text="Modify" />
-            <Button fx:id="deleteProductButton" layoutX="306.0" layoutY="211.0" mnemonicParsing="false" onAction="#onDeleteProduct" text="Delete" />
+            <Button fx:id="addProductButton" layoutX="198.0" layoutY="216.0" mnemonicParsing="false" onAction="#toAddProduct" text="Add" />
+            <Button fx:id="modifyProductButton" layoutX="245.0" layoutY="216.0" mnemonicParsing="false" onAction="#toModifyProduct" text="Modify" />
+            <Button fx:id="deleteProductButton" layoutX="306.0" layoutY="216.0" mnemonicParsing="false" onAction="#onDeleteProduct" text="Delete" />
+            <Button fx:id="productSearchButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#productResultHandler" prefHeight="19.0" prefWidth="52.0" text="Search" />
          </children>
       </Pane>
       <Label layoutX="487.0" layoutY="431.0" prefHeight="19.0" prefWidth="368.0" textFill="#d11616">
