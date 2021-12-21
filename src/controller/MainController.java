@@ -29,6 +29,16 @@ public class MainController implements Initializable {
 
     Inventory inventory;
 
+    /**
+     * The selected part object from the table view.
+     */
+    public static Part partToModify;
+
+    /**
+     * The selected product object from the table view.
+     */
+    public static Product productToModify;
+
     //Parts variables
     @FXML
     private TableView<Part> partsTableView;
@@ -70,6 +80,25 @@ public class MainController implements Initializable {
     private javafx.scene.control.Button deleteProductButton;
 
 
+    /**
+     * Gets the part object selected in the part table.
+     *
+     * @return A part object, null if no part selected.
+     */
+    public static Part getPartToModify() {
+        return partToModify;
+    }
+
+    /**
+     * Gets the product object selected by the user in the product table.
+     *
+     * @return A product object, null if no product selected.
+     */
+    public static Product getProductToModify() {
+        return productToModify;
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -100,12 +129,20 @@ public class MainController implements Initializable {
     }
 
     public void toModifyPart(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPartMenu.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setTitle("Modify Part Menu");
-        stage.setScene(scene);
-        stage.show();
+
+        partToModify = partsTableView.getSelectionModel().getSelectedItem();
+
+        if (partToModify == null) {
+            displayAlert(3);
+        }
+        else{
+            Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPartMenu.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setTitle("Modify Part Menu");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void toModifyProduct(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -127,7 +164,7 @@ public class MainController implements Initializable {
     }
 
     public void onDeletePart()
-    {
+     {
         if (partsTableView.getSelectionModel().getSelectedItem() != null)
         {
             Part part = partsTableView.getSelectionModel().getSelectedItem();
@@ -305,5 +342,45 @@ public class MainController implements Initializable {
         }
         return null;
     }
+
+
+        /**
+         * Displays various alert messages.
+         */
+
+        private void displayAlert(int alertNum) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alertError = new Alert(Alert.AlertType.ERROR);
+
+            switch (alertNum) {
+                case 1:
+                    alert.setTitle("Information");
+                    alert.setHeaderText("Part not found");
+                    alert.showAndWait();
+                    break;
+                case 2:
+                    alert.setTitle("Information");
+                    alert.setHeaderText("Product not found");
+                    alert.showAndWait();
+                    break;
+                case 3:
+                    alertError.setTitle("Error");
+                    alertError.setHeaderText("Part not selected");
+                    alertError.showAndWait();
+                    break;
+                case 4:
+                    alertError.setTitle("Error");
+                    alertError.setHeaderText("Product not selected");
+                    alertError.showAndWait();
+                    break;
+                case 5:
+                    alertError.setTitle("Error");
+                    alertError.setHeaderText("Parts Associated");
+                    alertError.setContentText("All parts must be removed from product before deletion.");
+                    alertError.showAndWait();
+                    break;
+            }
+        }
 
 }

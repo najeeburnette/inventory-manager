@@ -159,6 +159,7 @@ public class AddPartController implements Initializable
                 error.append("\n - Company Name field empty.");
             }
         }
+
         //checking if machine Id is an integer
         else if (inHouseButton.isSelected())
         {
@@ -194,14 +195,14 @@ public class AddPartController implements Initializable
         }
     }
 
-private void returnToMain() throws IOException{
-    Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
-    Stage stage = (Stage)saveButton.getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setTitle("Inventory Manager");
-    stage.setScene(scene);
-    stage.show();
-}
+    private void returnToMain() throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+        Stage stage = (Stage)saveButton.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Inventory Manager");
+        stage.setScene(scene);
+        stage.show();
+    }
 
 }
 
