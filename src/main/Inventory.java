@@ -47,7 +47,6 @@ public class Inventory {
                     result.add(allProducts.get(i));
                 }
             }
-        
 
         return result;
 

@@ -51,7 +51,7 @@
             <Button layoutX="43.0" layoutY="549.0" mnemonicParsing="false" onAction="#onSaveButton" text="Save" />
             <Button layoutX="131.0" layoutY="549.0" mnemonicParsing="false" onAction="#backToMain" text="Cancel" />
             <Label fx:id="errorLabel" layoutX="52.0" layoutY="356.0" prefHeight="167.0" prefWidth="282.0" textFill="#ea0404" />
-            <Button fx:id="partSearchButton" layoutX="524.0" layoutY="46.0" mnemonicParsing="false" onAction="#partResultHandler" text="Search" />
+            <Button fx:id="partSearchButton" layoutX="525.0" layoutY="45.0" mnemonicParsing="false" onAction="#partResultHandler" text="Search" />
          </children>
       </AnchorPane>
    </children>

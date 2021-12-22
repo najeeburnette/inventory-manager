@@ -115,15 +115,14 @@ public class AddProductController implements Initializable {
                 Part pt = searchByPartId(id);
                 if (pt != null) {parts.add(pt);}
             }
-            catch (NumberFormatException e)
+            catch (NumberFormatException ignored)
             {
-                //ignore
+
             }
         }
 
         partsTableView.setItems(parts);
         partSearchQuery.setText("");
-
     }
 
     private ObservableList<Part> searchByPartName(String partialName)
@@ -166,8 +165,8 @@ public class AddProductController implements Initializable {
         }
     }
 
-    public void onActionRemoveButton(ActionEvent event) {
-
+    public void onActionRemoveButton(ActionEvent event)
+    {
         Part selectedPart = assocPartsTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
@@ -291,8 +290,6 @@ public class AddProductController implements Initializable {
 
             returnToMain();
         }
-
-
     }
 
     private void returnToMain() throws IOException

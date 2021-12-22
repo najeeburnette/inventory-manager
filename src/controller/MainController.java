@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import main.*;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -245,6 +244,7 @@ public class MainController implements Initializable {
 
     public void partResultHandler(ActionEvent actionEvent)
     {
+
        String q = partSearchQuery.getText();
 
        ObservableList<Part> parts = searchByPartName(q);
@@ -256,14 +256,15 @@ public class MainController implements Initializable {
               Part pt = searchByPartId(id);
               if (pt != null) {parts.add(pt);}
           }
-          catch (NumberFormatException e)
+          catch (NumberFormatException ignored)
           {
-              //ignore
+
           }
       }
 
        partsTableView.setItems(parts);
        partSearchQuery.setText("");
+
     }
 
     public void productResultHandler(ActionEvent actionEvent)
@@ -367,5 +368,6 @@ public class MainController implements Initializable {
                     break;
             }
         }
+
 
 }

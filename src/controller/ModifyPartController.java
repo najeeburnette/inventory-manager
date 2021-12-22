@@ -167,13 +167,14 @@ public class ModifyPartController implements Initializable
         }
         else {
             errorLabel.setVisible(false);
+            int currentPartIndex = inventory.getAllParts().indexOf(part);
 
             if (inHouseButton.isSelected()) {
-                InHouse newPart = new InHouse(id, name, price, stock, min, max, machineId);
-                inventory.addPart(newPart);
+                InHouse updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
+                inventory.updatePart(currentPartIndex, updatedPart);
             } else {
-                Outsourced newPart = new Outsourced(id, name, price, stock, min, max, companyName);
-                inventory.addPart(newPart);
+                Outsourced updatedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                inventory.updatePart(currentPartIndex, updatedPart);
             }
             returnToMain();
         }
