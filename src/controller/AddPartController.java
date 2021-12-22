@@ -195,7 +195,8 @@ public class AddPartController implements Initializable
         }
     }
 
-    private void returnToMain() throws IOException{
+    private void returnToMain() throws IOException
+    {
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
         Stage stage = (Stage)saveButton.getScene().getWindow();
         Scene scene = new Scene(root);

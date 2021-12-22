@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class ModifyPartController implements Initializable
 {
-    @FXML private Button cancelButton;
+
     @FXML private TextField idInput;
     @FXML private TextField invInput;
     @FXML private TextField machineIdCompanyInput;
@@ -28,7 +28,6 @@ public class ModifyPartController implements Initializable
     @FXML private TextField nameInput;
     @FXML private RadioButton inHouseButton;
     @FXML private TextField priceInput;
-    @FXML private ToggleGroup tgroup2;
     @FXML private Button saveButton;
     @FXML private RadioButton outsourcedButton;
     @FXML private Label errorLabel;
@@ -40,23 +39,6 @@ public class ModifyPartController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        /*
-        idInput.setText("" + part.getId());
-        nameInput.setText("" + part.getName());
-        priceInput.setText("" + part.getPrice());
-        invInput.setText("" + part.getStock());
-        maxInput.setText("" + part.getMax());
-        minInput.setText("" + part.getMin());
-
-
-        idInput.setText(Integer.toString(part.getId()));
-        nameInput.setText(part.getName());
-        priceInput.setText(Double.toString(part.getPrice()));
-        invInput.setText(Integer.toString(part.getStock()));
-        maxInput.setText(Integer.toString(part.getMax()));
-        minInput.setText(Integer.toString(part.getMin()));
-
-         */
 
         part = MainController.getPartToModify();
 

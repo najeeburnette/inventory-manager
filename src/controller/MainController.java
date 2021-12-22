@@ -1,7 +1,5 @@
 package controller;
 
-import com.sun.glass.ui.Cursor;
-import com.sun.glass.ui.Window;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,9 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
@@ -26,18 +21,6 @@ import java.util.ResourceBundle;
 
 
 public class MainController implements Initializable {
-
-    Inventory inventory;
-
-    /**
-     * The selected part object from the table view.
-     */
-    public static Part partToModify;
-
-    /**
-     * The selected product object from the table view.
-     */
-    public static Product productToModify;
 
     //Parts variables
     @FXML
@@ -79,6 +62,17 @@ public class MainController implements Initializable {
     @FXML
     private javafx.scene.control.Button deleteProductButton;
 
+    Inventory inventory;
+
+    /**
+     * The selected part object from the table view.
+     */
+    public static Part partToModify;
+
+    /**
+     * The selected product object from the table view.
+     */
+    public static Product productToModify;
 
     /**
      * Gets the part object selected in the part table.
@@ -133,7 +127,7 @@ public class MainController implements Initializable {
         partToModify = partsTableView.getSelectionModel().getSelectedItem();
 
         if (partToModify == null) {
-            displayAlert(3);
+            errorAlert(1);
         }
         else{
             Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPartMenu.fxml"));
@@ -146,12 +140,20 @@ public class MainController implements Initializable {
     }
 
     public void toModifyProduct(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyProductMenu.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setTitle("Modify Product Menu");
-        stage.setScene(scene);
-        stage.show();
+
+        productToModify = productTableView.getSelectionModel().getSelectedItem();
+
+        if (productToModify == null) {
+            errorAlert(2);
+        }
+        else {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyProductMenu.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setTitle("Modify Product Menu");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void toAddProduct(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -347,37 +349,20 @@ public class MainController implements Initializable {
         /**
          * Displays various alert messages.
          */
-
-        private void displayAlert(int alertNum) {
+        private void errorAlert(int alertNum) {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             Alert alertError = new Alert(Alert.AlertType.ERROR);
 
             switch (alertNum) {
                 case 1:
-                    alert.setTitle("Information");
-                    alert.setHeaderText("Part not found");
-                    alert.showAndWait();
+                    alertError.setTitle("Error");
+                    alertError.setHeaderText("No Part Selected.");
+                    alertError.showAndWait();
                     break;
                 case 2:
-                    alert.setTitle("Information");
-                    alert.setHeaderText("Product not found");
-                    alert.showAndWait();
-                    break;
-                case 3:
                     alertError.setTitle("Error");
-                    alertError.setHeaderText("Part not selected");
-                    alertError.showAndWait();
-                    break;
-                case 4:
-                    alertError.setTitle("Error");
-                    alertError.setHeaderText("Product not selected");
-                    alertError.showAndWait();
-                    break;
-                case 5:
-                    alertError.setTitle("Error");
-                    alertError.setHeaderText("Parts Associated");
-                    alertError.setContentText("All parts must be removed from product before deletion.");
+                    alertError.setHeaderText("No Product Selected.");
                     alertError.showAndWait();
                     break;
             }
