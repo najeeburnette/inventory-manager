@@ -15,12 +15,17 @@ import javafx.stage.Stage;
 import main.Inventory;
 import main.Part;
 import main.Product;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * The ModifyProductController provides functionality for the Modify Product screen of the application.
+ * the Inventory
+ *
+ * @author Najee Burnette
+ */
 public class ModifyProductController implements Initializable {
 
     Inventory inventory;
@@ -29,25 +34,28 @@ public class ModifyProductController implements Initializable {
     private ObservableList<Part> assocParts = FXCollections.observableArrayList();
 
 
-    @FXML private Label errorLabel;
+    //Textfields
     @FXML private TextField idInput;
     @FXML private TextField invInput;
     @FXML private TextField maxInput;
     @FXML private TextField minInput;
     @FXML private TextField nameInput;
+    @FXML private TextField priceInput;
+
+    //Searchfield, Buttons and Labels
     @FXML private Button partSearchButton;
     @FXML private TextField partSearchQuery;
-    @FXML private TextField priceInput;
     @FXML private Button saveButton;
+    @FXML private  Label errorLabel;
 
+    //Tableviews
     @FXML private TableView<Part> partsTableView;
-    @FXML private TableView<Part> assocPartsTableView;
-
     @FXML private TableColumn<Part, Integer> partId;
     @FXML private TableColumn<Part, String> partName;
     @FXML private TableColumn<Part, Integer> partInv;
     @FXML private TableColumn<Part, Double> partCost;
 
+    @FXML private TableView<Part> assocPartsTableView;
     @FXML private TableColumn<Part, Integer> assocPartId;
     @FXML private TableColumn<Part, String> assocPartInv;
     @FXML private TableColumn<Part, Integer> assocPartName;
@@ -84,7 +92,13 @@ public class ModifyProductController implements Initializable {
 
     }
 
-
+    /**
+     * Reads the user input and compares it with the names of parts in the list and returns parts containing
+     * the search query.
+     *
+     * @param partialName
+     * @return a list of the parts matching the query
+     */
     private ObservableList<Part> searchByPartName(String partialName)
     {
         ObservableList<Part> namedParts = FXCollections.observableArrayList();
@@ -100,6 +114,13 @@ public class ModifyProductController implements Initializable {
         return namedParts;
     }
 
+    /**
+     * Reads the user input and compares it with the IDs of parts in the list and returns parts containing
+     * the exact ID.
+     *
+     * @param partId
+     * @return the part with the matching the ID
+     */
     private Part searchByPartId(int partId)
     {
         ObservableList<Part> namedParts = FXCollections.observableArrayList();
@@ -113,6 +134,12 @@ public class ModifyProductController implements Initializable {
         return null;
     }
 
+    /**
+     * Initiates a search based on the query in the part text field, then refreshes the part list with the results.
+     * Parts are searched by ID, partial name or full name.
+     *
+     * @param actionEvent applied to the Product search button.
+     */
     public void partResultHandler(javafx.event.ActionEvent actionEvent)
     {
         String q = partSearchQuery.getText();
@@ -136,6 +163,10 @@ public class ModifyProductController implements Initializable {
         partSearchQuery.setText("");
     }
 
+    /**
+     * Adds a part from the parts list to the associated parts list of the product being modified.
+     * @param actionEvent
+     */
     public void onActionAddButton(javafx.event.ActionEvent actionEvent) {
         Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
 
@@ -147,6 +178,10 @@ public class ModifyProductController implements Initializable {
         }
     }
 
+    /**
+     * Prompts the user to confirm removal of part form associated parts list, part is removed if confirmed.
+     * @param actionEvent
+     */
     public void onActionRemoveButton(javafx.event.ActionEvent actionEvent)
     {
         Part selectedPart = assocPartsTableView.getSelectionModel().getSelectedItem();
@@ -168,6 +203,11 @@ public class ModifyProductController implements Initializable {
         }
     }
 
+    /**
+     * This method returns the user back to the main controller without adding any Part to the Inventory
+     * @param actionEvent applied to Cancel Button
+     * @throws IOException
+     */
     public void backToMain (javafx.event.ActionEvent actionEvent) throws IOException
     {
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -178,6 +218,11 @@ public class ModifyProductController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This method checks input text fields for validity and if conditions are met and replaces the Product in Inventory
+     * with the updated product with its associated parts.
+     * @throws IOException
+     */
     public void onSaveButton(javafx.event.ActionEvent actionEvent) throws IOException
     {
         int id = product.getId();
@@ -250,38 +295,23 @@ public class ModifyProductController implements Initializable {
         }
         else
         {
-
             errorLabel.setVisible(false);
-            //int currentProductIndex = inventory.getAllProducts().indexOf(product);
 
             Product updatedProduct = new Product(id, name, price, stock, min, max);
             for(int i = 0; i <= assocParts.size()-1; i++)
             {
                 updatedProduct.addAssociatedPart(assocParts.get(i));
             }
-            //Inventory.addProduct(updatedProduct);
-            //Inventory.deleteProduct(product);
             inventory.updateProduct(inventory.getAllProducts().indexOf(product), updatedProduct);
-            //inventory.updateProduct(currentProductIndex, updatedProduct);
-
-
-          /*
-            errorLabel.setVisible(false);
-
-            Product prod = new Product(id, name, price, stock, min, max);
-            for(int i = 0; i <= parts.size()-1; i++)
-            {
-                prod.addAssociatedPart(parts.get(i));
-            }
-            inventory.updateProduct(inventory.getAllProducts().indexOf(product), prod);
-
-           */
-
             returnToMain(actionEvent);
-
         }
 
     }
+
+    /**
+     * This method returns the user back to the main controller after a Part is added.
+     * @throws IOException
+     */
     private void returnToMain(ActionEvent event) throws IOException {
 
         Parent parent = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -291,6 +321,9 @@ public class ModifyProductController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Displays error message prompts when parts are not selected to adding or removing from associated part list.
+     */
     private void errorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
@@ -299,20 +332,4 @@ public class ModifyProductController implements Initializable {
         alert.setHeaderText("No Part Selected.");
         alert.showAndWait();
     }
-
-    private void testAlert(Product product) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
-
-        alert.setTitle("Test");
-        alert.setHeaderText(
-                product.getName() + "\n" +
-                product.getId() + "\n" +
-                product.getMax() + "\n" +
-                product.getMin() + "\n" +
-                product.getPrice() + "\n" +
-                product.getAllAssociatedParts());
-        alert.showAndWait();
-    }
-
 }

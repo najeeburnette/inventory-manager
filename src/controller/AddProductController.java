@@ -19,18 +19,19 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * The AddProductController provides functionality for the Add Product screen of the application.
+ *
+ * @author Najee Burnette
+ */
 public class AddProductController implements Initializable {
 
-
-    /**
-     * A list containing parts associated with the product.
-     */
     Inventory inventory;
     private ObservableList<Part> parts = FXCollections.observableArrayList();
     private ObservableList<Part> assocParts = FXCollections.observableArrayList();
 
+    //Inputs, Labels and Buttons
     @FXML private Button addButton;
-
     @FXML private TextField idTextField;
     @FXML private TextField invInput;
     @FXML private TextField maxInput;
@@ -42,13 +43,14 @@ public class AddProductController implements Initializable {
     @FXML private Button saveButton;
     @FXML private Label errorLabel;
 
+    //TableViews
     @FXML private TableView<Part> partsTableView;
-    @FXML private TableView<Part> assocPartsTableView;
     @FXML private TableColumn<Part, Integer> partId;
     @FXML private TableColumn<Part, String> partName;
     @FXML private TableColumn<Part, Integer> partInv;
     @FXML private TableColumn<Part, Double> partCost;
 
+    @FXML private TableView<Part> assocPartsTableView;
     @FXML private TableColumn<Part, Integer> assocPartId;
     @FXML private TableColumn<Part, String> assocPartInv;
     @FXML private TableColumn<Part, Integer> assocPartName;
@@ -71,6 +73,11 @@ public class AddProductController implements Initializable {
 
     }
 
+    /**
+     * This method returns the user back to the main controller without adding any Part to the Inventory
+     * @param actionEvent applied to Cancel Button
+     * @throws IOException
+     */
     public void backToMain (javafx.event.ActionEvent actionEvent) throws IOException
     {
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -81,6 +88,10 @@ public class AddProductController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Adds a part from the parts list to the associated parts list of the product being modified.
+     * @param event
+     */
     public void onActionAddButton(ActionEvent event) {
         Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
 
@@ -92,6 +103,9 @@ public class AddProductController implements Initializable {
         }
     }
 
+    /**
+     * Displays error message prompts when parts are not selected to adding or removing from associated part list.
+     */
     private void errorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
@@ -101,7 +115,12 @@ public class AddProductController implements Initializable {
         alert.showAndWait();
     }
 
-
+    /**
+     * Initiates a search based on the query in the part text field, then refreshes the part list with the results.
+     * Parts are searched by ID, partial name or full name.
+     *
+     * @param event applied to the Product search button.
+     */
     public void partResultHandler(ActionEvent event)
     {
         String q = partSearchQuery.getText();
@@ -125,6 +144,13 @@ public class AddProductController implements Initializable {
         partSearchQuery.setText("");
     }
 
+    /**
+     * Reads the user input and compares it with the names of parts in the list and returns parts containing
+     * the search query.
+     *
+     * @param partialName
+     * @return a list of the parts matching the query
+     */
     private ObservableList<Part> searchByPartName(String partialName)
     {
         ObservableList<Part> namedParts = FXCollections.observableArrayList();
@@ -140,6 +166,13 @@ public class AddProductController implements Initializable {
         return namedParts;
     }
 
+    /**
+     * Reads the user input and compares it with the IDs of parts in the list and returns parts containing
+     * the exact ID.
+     *
+     * @param partId
+     * @return the part with the matching the ID
+     */
     private Part searchByPartId(int partId)
     {
         ObservableList<Part> namedParts = FXCollections.observableArrayList();
@@ -153,18 +186,10 @@ public class AddProductController implements Initializable {
         return null;
     }
 
-    public void onActionAddButton()
-    {
-        // Get the selected Part
-        Part part = (Part) partsTableView.getSelectionModel().getSelectedItem();
-
-        // variables to add to the listPartsTableView
-        if (part != null) {
-            parts.add(part);
-            partsTableView.setItems(parts);
-        }
-    }
-
+    /**
+     * Prompts the user to confirm removal of part form associated parts list, part is removed if confirmed.
+     * @param event
+     */
     public void onActionRemoveButton(ActionEvent event)
     {
         Part selectedPart = assocPartsTableView.getSelectionModel().getSelectedItem();
@@ -186,6 +211,13 @@ public class AddProductController implements Initializable {
         }
     }
 
+    /**
+     *This method checks input text fields for validity and if conditions are met, adds the Product to the Inventory
+     * and the parts to the Products associated part list.
+     *
+     * @param event applied to Save button
+     * @throws IOException
+     */
     public void onSaveButton(ActionEvent event) throws IOException {
         ObservableList<Part> allParts = Inventory.getAllParts();
 
@@ -281,17 +313,20 @@ public class AddProductController implements Initializable {
             errorLabel.setVisible(false);
 
             // Create a new Product object, add the associated parts, and add the Product to the inventory
-            Product prod = new Product(id, name, price, stock, min, max);
+            Product newProduct = new Product(id, name, price, stock, min, max);
             for(int i = 0; i <= assocParts.size()-1; i++)
             {
-                prod.addAssociatedPart(assocParts.get(i));
+                newProduct.addAssociatedPart(assocParts.get(i));
             }
-            inventory.addProduct(prod);
-
+            inventory.addProduct(newProduct);
             returnToMain();
         }
     }
-
+    
+    /**
+     * This method returns the user back to the main controller after a Part is added.
+     * @throws IOException
+     */
     private void returnToMain() throws IOException
     {
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));

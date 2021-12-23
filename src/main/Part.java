@@ -1,9 +1,8 @@
 package main;
 /**
-* Supplied class Part.java 
- */
-
-/**
+* Supplied class Part.java
+ *
+ * Class provided for assignment.
  *
  * @author Najee Burnette
  */
