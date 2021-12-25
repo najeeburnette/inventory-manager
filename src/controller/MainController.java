@@ -200,7 +200,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Prompts the user for confirm deletion of product then deletes the selected Product from the Inventory if confirmed.
+     * Prompts the user for confirm deletion of Product then deletes the selected Product from the Inventory if it has no associated parts.
      * The product list is then refreshed.
      */
     public void onDeleteProduct()
@@ -217,19 +217,20 @@ public class MainController implements Initializable {
 
             if (result.get() == ButtonType.OK)
             {
-                try
+                if(product.getAllAssociatedParts().isEmpty())
                 {
-                    inventory.deleteProduct(product);
-                    productTableView.setItems(inventory.getAllProducts());
-                    productTableView.refresh();
+                    try {
+                        inventory.deleteProduct(product);
+                        productTableView.setItems(inventory.getAllProducts());
+                        productTableView.refresh();
 
+                    } catch (Exception e) {
+                        Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert2.setTitle("Error: Product Deletion!");
+                        alert2.setHeaderText("The product you selected could not be deleted.");
+                    }
                 }
-                catch (Exception e)
-                {
-                    Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert2.setTitle("Error: Product Deletion!");
-                    alert2.setHeaderText("The product you selected could not be deleted.");
-                }
+                else{errorAlert(3);}
             }
         }
     }
@@ -399,7 +400,7 @@ public class MainController implements Initializable {
 
 
         /**
-         * Displays error message prompts when parts or products are not selected when modifying.
+         * Displays error message prompts for various errors.
          */
         private void errorAlert(int alertNum) {
 
@@ -415,6 +416,12 @@ public class MainController implements Initializable {
                 case 2:
                     alertError.setTitle("Error");
                     alertError.setHeaderText("No Product Selected.");
+                    alertError.showAndWait();
+                    break;
+                case 3:
+                    alertError.setTitle("Error");
+                    alertError.setHeaderText("Product Could Not Be Deleted!" +
+                            "\nReason: Product has associated part");
                     alertError.showAndWait();
                     break;
             }

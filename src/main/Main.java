@@ -19,6 +19,7 @@ public class Main extends Application {
         stage.setTitle("Inventory Manager");
         stage.setScene(new Scene(root, 900, 600));
         stage.show();
+
     }
 
     public static void main(String[] args){launch(args);}
