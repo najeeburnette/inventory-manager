@@ -1,9 +1,5 @@
 package main;
 /**
-* Supplied class Part.java
- *
- * Class provided for assignment.
- *
  * @author Najee Burnette
  */
 public abstract class Part {
